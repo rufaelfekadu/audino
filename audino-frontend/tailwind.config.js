@@ -8,16 +8,16 @@ module.exports = {
     extend: {
       backgroundImage: {
         'primary-background': "url('./assets/background/beams.jpg')",
-        'audino-gradient': 'linear-gradient(45deg, #69BE98, #315846)', 
+        'audino-gradient': 'linear-gradient(45deg, #1E3A8A, #1E40AF)', 
       },
       colors: {
-        'audino-primary': '#70CBA2',
-        'audino-primary-dark': '#65B892', 
+        'audino-primary': '#1E3A8A',
+        'audino-primary-dark': '#1E40AF', 
         'audino-navy': '#00042a',     
         'audino-light-navy': '#13183f',
         'audino-midnight': '#20264C',
         'audino-gray': '#868686',
-        'audino-green-translucent': '#70CBA23B',
+        'audino-green-translucent': '#1E3A8A3B',
         'audino-deep-navy': '#0F1338',
         'audino-charcoal': '#4A4A4B',
         'audino-light-gray': '#D2D1D1',

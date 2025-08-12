@@ -112,7 +112,7 @@ export default function InviteMemberModal({
                       <button
                         type="button"
                         onClick={handleSubmit}
-                        className="ml-3 flex rounded-md bg-[#65B892] dark:bg-audino-gradient px-3 py-2 text-sm font-medium text-white hover:bg-[#65B892] focus:outline-none focus:ring-1 focus:ring-green-600"
+                        className="ml-3 flex rounded-md bg-[#1E3A8A] dark:bg-audino-gradient px-3 py-2 text-sm font-medium text-white hover:bg-[#1E3A8A] focus:outline-none focus:ring-1 focus:ring-blue-600"
                         disabled={isLoading}
                       >
                         {isLoading ? (

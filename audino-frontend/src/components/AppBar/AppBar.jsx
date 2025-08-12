@@ -68,9 +68,14 @@ export default function AppBar({ children }) {
                 <div className="flex">
                   <div className="flex flex-shrink-0 items-center">
                     <img
-                      className="block h-8 w-auto"
-                      src={require("../../assets/logos/logo.png")}
-                      alt="Audino"
+                      className="block h-16 w-auto"
+                      src={require("../../assets/logos/logo-MBZUAI-mini.png")}
+                      alt="MBZUAI"
+                    />
+                    <img
+                      className="block h-16 w-auto"
+                      src={require("../../assets/logos/logo-speechcare.png")}
+                      alt="SpeechCare"
                     />
                   </div>
                   <div className="hidden md:-my-px md:ml-6 md:flex md:space-x-8">
@@ -81,7 +86,7 @@ export default function AppBar({ children }) {
                         className={({ isActive }) =>
                           classNames(
                             isActive
-                              ? "border-audino-primary  dark:border-[#569c7c] text-audino-primary"
+                              ? "border-audino-primary  dark:border-[#1E3A8A] text-audino-primary"
                               : "border-transparent text-gray-500 dark:text-gray-300 dark:hover:text-gray-100 hover:border-gray-300 hover:text-gray-700",
                             "inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium"
                           )
@@ -112,7 +117,7 @@ export default function AppBar({ children }) {
                       <Notification />
                     </div>
                   )}
-                  <button
+                  {/* <button
                     type="button"
                     className="rounded-full bg-transparent  text-gray-400 dark:bg-gray-300 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-audino-primary dark:focus:ring-audino-primary "
                     onClick={routeChange}
@@ -129,13 +134,13 @@ export default function AppBar({ children }) {
                         d="M12 2C6.477 2 2 6.463 2 11.97c0 4.404 2.865 8.14 6.839 9.458.5.092.682-.216.682-.48 0-.236-.008-.864-.013-1.695-2.782.602-3.369-1.337-3.369-1.337-.454-1.151-1.11-1.458-1.11-1.458-.908-.618.069-.606.069-.606 1.003.07 1.531 1.027 1.531 1.027.892 1.524 2.341 1.084 2.91.828.092-.643.35-1.083.636-1.332-2.22-.251-4.555-1.107-4.555-4.927 0-1.088.39-1.979 1.029-2.675-.103-.252-.446-1.266.098-2.638 0 0 .84-.268 2.75 1.022A9.607 9.607 0 0 1 12 6.82c.85.004 1.705.114 2.504.336 1.909-1.29 2.747-1.022 2.747-1.022.546 1.372.202 2.386.1 2.638.64.696 1.028 1.587 1.028 2.675 0 3.83-2.339 4.673-4.566 4.92.359.307.678.915.678 1.846 0 1.332-.012 2.407-.012 2.734 0 .267.18.577.688.48 3.97-1.32 6.833-5.054 6.833-9.458C22 6.463 17.522 2 12 2Z"
                       ></path>
                     </svg>
-                    {/* <BellIcon className="h-6 w-6" aria-hidden="true" /> */}
-                  </button>
+                    <BellIcon className="h-6 w-6" aria-hidden="true" />
+                  </button> */}
 
                   {/* Profile dropdown */}
                   <Menu as="div" className="relative ml-3">
                     <div>
-                      <Menu.Button className="flex rounded-full bg-white dark:bg-transparent text-sm focus:outline-none focus:ring-2 focus:ring-audino-primary dark:focus:ring-[#569c7c] ">
+                      <Menu.Button className="flex rounded-full bg-white dark:bg-transparent text-sm focus:outline-none focus:ring-2 focus:ring-audino-primary dark:focus:ring-[#1E3A8A] ">
                         <span className="sr-only">Open user menu</span>
                         <div className="flex items-center px-4">
                           <div className="flex-shrink-0">

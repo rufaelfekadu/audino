@@ -15,7 +15,7 @@ const ProgressIndicator = ({ done, inReview, annotating, total }) => {
   return (
     <div className="w-full h-1.5 mt-1 bg-gray-200 rounded-full overflow-hidden">
       <div
-        className="h-full bg-green-500"
+        className="h-full bg-blue-500"
         style={{ width: `${donePercent}%` }}
       ></div>
       <div

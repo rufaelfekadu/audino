@@ -292,33 +292,37 @@ export default function EditableFields({
             <dt className="text-sm font-medium leading-6 text-gray-900 dark:text-audino-light-silver">
               Start time
             </dt>
-            <CustomInput
-              type="number"
-              name="start_time"
-              id="start_time"
-              step={0.01}
-              value={getInputValue("start", false)}
-              placeholder=""
-              onChange={(e) =>
-                handleValueChange("start", e.target.value, false)
-              }
-              onBlur={(e) => handleValueChangeOnBlur("start", e.target.value)}
-            />
+            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+              <CustomInput
+                type="number"
+                name="start_time"
+                id="start_time"
+                step={0.01}
+                value={getInputValue("start", false)}
+                placeholder=""
+                onChange={(e) =>
+                  handleValueChange("start", e.target.value, false)
+                }
+                onBlur={(e) => handleValueChangeOnBlur("start", e.target.value)}
+              />
+            </dd>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <dt className="text-sm font-medium leading-6 text-gray-900 dark:text-audino-light-silver">
               End time
             </dt>
-            <CustomInput
-              type="number"
-              name="end_time"
-              id="end_time"
-              step={0.01}
-              value={getInputValue("end", false)}
-              placeholder=""
-              onChange={(e) => handleValueChange("end", e.target.value, false)}
-              onBlur={(e) => handleValueChangeOnBlur("end", e.target.value)}
-            />
+            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+              <CustomInput
+                type="number"
+                name="end_time"
+                id="end_time"
+                step={0.01}
+                value={getInputValue("end", false)}
+                placeholder=""
+                onChange={(e) => handleValueChange("end", e.target.value, false)}
+                onBlur={(e) => handleValueChangeOnBlur("end", e.target.value)}
+              />
+            </dd>
           </div>
         </dl>
       </div>

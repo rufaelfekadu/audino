@@ -13,7 +13,7 @@ import TimelinePlugin from "wavesurfer.js/dist/plugin/wavesurfer.timeline.min";
 import { useParams } from "react-router-dom";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchAnnotationDataApi } from "../../services/job.services";
+import { fetchAnnotationDataApi, fetchVideoDataApi, fetchVideoPreviewApi, fetchFullVideoApi } from "../../services/job.services";
 import {
   usePostAnnotationMutation,
   usePutAnnotationMutation,
@@ -50,6 +50,7 @@ import AlertModal from "../../components/Alert/AlertModal";
 
 import { Transition } from "@headlessui/react";
 import Spinner from "../../components/loader/spinner";
+import VideoPreview from "./components/VideoPreview";
 
 export default function AnnotatePage({}) {
   const { id: jobId } = useParams();
@@ -97,6 +98,12 @@ export default function AnnotatePage({}) {
     successMutation: 0,
   });
   const [gtAnnotations, setGtAnnotations] = useState([]);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [isVideoTask, setIsVideoTask] = useState(false);
+  const [videoUrl, setVideoUrl] = useState(null);
+  const [videoError, setVideoError] = useState(null);
+  const [isVideoLoading, setIsVideoLoading] = useState(false);
+  const [videoLoadingProgress, setVideoLoadingProgress] = useState(0);
 
   // use regions ref to pass it inside useCallback
   // so it will use always the most fresh version of regions list
@@ -182,6 +189,15 @@ export default function AnnotatePage({}) {
       document.removeEventListener("keydown", handleKeyPress);
     };
   }, []);
+
+  // Cleanup video URL on unmount or when videoUrl changes
+  useEffect(() => {
+    return () => {
+      if (videoUrl) {
+        URL.revokeObjectURL(videoUrl);
+      }
+    };
+  }, [videoUrl]);
 
   const getNextObject = (currentIndex) => {
     if (currentIndex >= 0 && currentIndex < regionsRef?.current?.length - 1) {
@@ -357,6 +373,7 @@ export default function AnnotatePage({}) {
 
   const updateTimeUi = () => {
     let currentTime = wavesurferRef.current.getCurrentTime();
+    setCurrentTime(currentTime);
 
     document.getElementById("currentTime").innerText = formatTime(currentTime);
 
@@ -407,7 +424,8 @@ export default function AnnotatePage({}) {
       getJobDetailQuery.isLoading ||
       getLabelsQuery.isLoading ||
       getAnnotationDataQuery.isFetching ||
-      isWaveformLoading
+      isWaveformLoading ||
+      (isVideoTask && (getVideoDataQuery.isLoading || getVideoDataQuery.isFetching))
     );
   };
 
@@ -762,12 +780,85 @@ export default function AnnotatePage({}) {
     },
   });
 
+  const handleVideoProgressUpdate = (progress) => {
+    setVideoLoadingProgress(progress);
+    if (progress >= 100) {
+      setIsVideoLoading(false);
+    }
+  };
+
+  // fetch video data for video_audio tasks
+  const getVideoDataQuery = useQuery({
+    queryKey: ["video-data", jobId],
+    queryFn: () => fetchFullVideoApi({ id: jobId }),
+    enabled: false,
+    staleTime: Infinity,
+    onMutate: () => {
+      // Set loading state when starting to fetch video
+      setIsVideoLoading(true);
+      setVideoLoadingProgress(0);
+    },
+    onSuccess: (responseData, query) => {
+      const { data, response } = responseData;
+      
+      // Get the content type from the response headers
+      let mimeType = 'video/mp4'; // fallback
+      
+      if (response?.headers) {
+        const contentType = response.headers['content-type'];
+        if (contentType) {
+          mimeType = contentType;
+          console.log('Backend sent MIME type:', mimeType);
+        }
+      }
+    // if memtype is audio return null
+    if (mimeType === 'audio/x-wav' || mimeType === 'audio/wav') {
+      setIsVideoTask(false);
+      setVideoUrl(null);
+      setIsVideoLoading(false);
+      setVideoLoadingProgress(0);
+      return;
+    }
+      
+      // Create video blob with the detected MIME type
+      const videoBlob = new Blob([data], { type: mimeType });
+      
+      // Validate that we have actual video data
+      if (videoBlob.size === 0) {
+        console.error('Video blob is empty!');
+        setVideoError('Video data is empty');
+        setIsVideoLoading(false);
+        setVideoLoadingProgress(0);
+        return;
+      }
+      
+      const videoUrl = URL.createObjectURL(videoBlob);
+      setVideoUrl(videoUrl);
+      setIsVideoTask(true);
+      // Video loading will be handled by the video element events
+      // Set progress to indicate data is ready
+      setVideoLoadingProgress(50);
+    },
+    onError: (error) => {
+      console.log('No video data available for this task:', error);
+      setIsVideoTask(false);
+      setVideoUrl(null);
+      setIsVideoLoading(false);
+      setVideoLoadingProgress(0);
+    },
+  });
+
   useEffect(() => {
     if (jobId) {
       getJobDetailQuery.refetch();
       getJobMetaDataQuery.refetch();
     }
   }, [jobId]);
+
+  // Try to fetch video data for all tasks - if it succeeds, show video preview
+  useEffect(() => {
+    getVideoDataQuery.refetch();
+  }, [getJobDetailQuery.data]);
 
   useEffect(() => {
     if (getJobDetailQuery.data?.task_id) {
@@ -1268,7 +1359,50 @@ export default function AnnotatePage({}) {
       />
 
       <main className=" -mt-32 grid grid-cols-12 gap-0  xl:gap-4 px-2 sm:px-8">
-        <div className="pb-12 col-span-12  xl:col-span-9 ">
+        <div className="pb-12 col-span-12 xl:col-span-9">
+          {/* Video Preview Section - Above audio player */}
+          {isVideoTask && (
+            <div className="mb-4">
+              <div className="bg-white dark:bg-audino-navy shadow rounded-lg p-4">
+                <h3 className="text-lg font-semibold mb-3 text-gray-900 dark:text-white">Video Preview</h3>
+                {/* Video Loading Message */}
+                {(getVideoDataQuery.isLoading || getVideoDataQuery.isFetching) && (
+                  <div className="p-2 text-center text-gray-500 mb-3">
+                    <div className="flex items-center justify-center gap-2">
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-audino-primary"></div>
+                      <p>Please wait, your video is loading...</p>
+                    </div>
+                    {videoLoadingProgress > 0 && videoLoadingProgress < 100 && (
+                      <div className="mt-2">
+                        <div className="w-full bg-gray-200 dark:bg-audino-midnight rounded-full h-2">
+                          <div 
+                            className="bg-audino-primary h-2 rounded-full transition-all duration-300"
+                            style={{ width: `${videoLoadingProgress}%` }}
+                          ></div>
+                        </div>
+                        <p className="text-xs mt-1">{Math.round(videoLoadingProgress)}% loaded</p>
+                      </div>
+                    )}
+                  </div>
+                )}
+                <div className="max-h-96 overflow-y-auto">
+                  <VideoPreview
+                    jobId={jobId}
+                    currentTime={currentTime}
+                    totalDuration={totalDuration}
+                    isPlaying={isPlaying}
+                    isVideoTask={isVideoTask}
+                    videoUrl={videoUrl}
+                    videoError={videoError}
+                    isVideoLoading={isVideoLoading}
+                    videoLoadingProgress={videoLoadingProgress}
+                    onProgressUpdate={handleVideoProgressUpdate}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+          
           <div className="bg-white dark:bg-audino-navy shadow min-h-full rounded-lg">
             {
               <>
@@ -1289,7 +1423,7 @@ export default function AnnotatePage({}) {
                     <WaveForm
                       id="waveform"
                       cursorColor="transparent"
-                      waveColor="#65B892"
+                      waveColor="#1E3A8A"
                       className="w-full"
                     >
                       {regions.map((regionProps, regionIdx) => {
@@ -1360,7 +1494,7 @@ export default function AnnotatePage({}) {
                 </div>
 
                 {regions[currentAnnotationIndex]?.data?.label ? (
-                  <div className="xl:w-1/2 px-4 xl:px-0 w-full mx-auto">
+                  <div className="w-full max-w-4xl px-4 xl:px-0 mx-auto">
                     <EditableFields
                       inputTextRef={inputTextRef}
                       totalDuration={totalDuration}
@@ -1509,7 +1643,7 @@ export default function AnnotatePage({}) {
                   <div className="flex-shrink-0">
                     <Spinner
                       aria-hidden="true"
-                      className="h-6 w-6 text-green-400"
+                      className="h-6 w-6 text-blue-400"
                     />
                   </div>
                   <div className="ml-3 w-0 flex-1 pt-0.5">

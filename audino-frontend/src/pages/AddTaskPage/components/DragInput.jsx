@@ -25,14 +25,14 @@ export default function DragInput({ handleInputChange, isMultiple }) {
     event.stopPropagation();
     setDragActive(false);
     if (event.dataTransfer.files && event.dataTransfer.files.length > 0) {
-      let audioFiles = Array.from(event.dataTransfer.files).filter(file =>
-        file.type.startsWith('audio/')
+      let mediaFiles = Array.from(event.dataTransfer.files).filter(file =>
+        file.type.startsWith('audio/') || file.type.startsWith('video/')
       );
-      if (!isMultiple && audioFiles.length > 1) {
-        audioFiles = [audioFiles[0]]; // Restrict to a single file if isMulti is false
+      if (!isMultiple && mediaFiles.length > 1) {
+        mediaFiles = [mediaFiles[0]]; // Restrict to a single file if isMulti is false
       }
-      if (audioFiles.length > 0) {
-        handleInputChange("files", audioFiles);
+      if (mediaFiles.length > 0) {
+        handleInputChange("files", mediaFiles);
       }
     }
   };
@@ -69,14 +69,14 @@ export default function DragInput({ handleInputChange, isMultiple }) {
             <span className="font-medium">Click to upload</span> or drag and
             drop
           </p>
-          <p className="text-xs text-gray-500">Upload Audio file only</p>
+          <p className="text-xs text-gray-500">Upload Audio or Video file only</p>
         </div>
         <input
           id="dropzone-file"
           type="file"
           multiple={isMultiple}
           className="hidden"
-          accept=".mp3,audio/*"
+          accept=".mp3,audio/*,.mp4,video/*"
           onChange={(e) => handleInputChange("files", e.target.files)}
         />
       </label>

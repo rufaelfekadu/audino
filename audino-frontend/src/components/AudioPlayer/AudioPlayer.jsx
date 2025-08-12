@@ -71,7 +71,7 @@ const AudioPlayer = ({ audioUrl }) => {
             </div>
 
             <WaveSurfer onMount={handleWSMount}>
-                <WaveForm id="waveform" cursorColor="transparent" waveColor='#65B892'>
+                <WaveForm id="waveform" cursorColor="transparent" waveColor='#1E3A8A'>
                 </WaveForm>
             </WaveSurfer>
 

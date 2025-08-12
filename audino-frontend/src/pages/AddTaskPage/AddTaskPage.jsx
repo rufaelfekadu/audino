@@ -63,6 +63,7 @@ const initialData = {
     is_voxpopuli: false,
     is_tedlium: false,
     is_commonvoice: false,
+    is_fluencybank: false,
   },
 };
 
@@ -917,6 +918,20 @@ export default function AddTaskPage() {
                         })
                       }
                     />
+                    <CustomCheckbox
+                      name="fluencybank"
+                      id="fluencybank"
+                      formError={formError}
+                      label="FluencyBank"
+                      description={DATASET_MAPING["is_fluencybank"]}
+                      value={formValue.flags.is_fluencybank}
+                      onChange={(e) =>
+                        handleInputChange("flags", {
+                          ...formValue.flags,
+                          is_fluencybank: e.target.checked,
+                        })
+                      }
+                    />
                   </div>
                 </fieldset>
               </div>
@@ -926,7 +941,7 @@ export default function AddTaskPage() {
                     className={`inline-flex items-center rounded-md  px-2 py-1 text-xs font-medium ring-1 ring-inset 
                     ${
                       highlighted && highlighted[field]
-                        ? "bg-green-50 dark:bg-transparent   text-green-700 ring-green-600/20"
+                        ? "bg-blue-50 dark:bg-transparent   text-blue-700 ring-blue-600/20"
                         : "ring-gray-500/10 dark:ring-audino-charcoal dark:bg-audino-light-navy dark:text-audino-neutral-gray bg-gray-50 text-gray-600"
                     }`}
                   >

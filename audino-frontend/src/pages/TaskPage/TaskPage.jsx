@@ -370,7 +370,7 @@ export default function TaskPage({
 }
 
 const statuses = {
-  Train: "text-green-700 bg-green-50 ring-green-600/20",
+      Train: "text-blue-700 bg-blue-50 ring-blue-600/20",
   Validation: "text-yellow-600 bg-yellow-50 ring-yellow-500/10",
   Test: "text-gray-800 bg-gray-50 ring-gray-600/20",
 };

@@ -35,7 +35,7 @@ export default function JobCard({
       case "in progress":
         return "text-yellow-800 bg-yellow-50 ring-yellow-600/20";
       case "completed":
-        return "text-green-800 bg-green-50 ring-green-600/20";
+        return "text-blue-800 bg-blue-50 ring-blue-600/20";
       case "rejected":
         return "text-gray-800 bg-gray-50 ring-gray-600/20";
       default:
@@ -50,7 +50,7 @@ export default function JobCard({
       case "in progress":
         return "text-yellow-800 ";
       case "completed":
-        return "text-green-800 ";
+        return "text-blue-800 ";
       case "failed":
         return "text-gray-800 ";
       default:
@@ -162,7 +162,7 @@ export default function JobCard({
           {isJobGroundTruth ? (
             <p
               className={classNames(
-                "rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset text-green-800 bg-green-50 ring-green-600/20"
+                "rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset text-blue-800 bg-blue-50 ring-blue-600/20"
               )}
             >
               {job.type
@@ -177,7 +177,7 @@ export default function JobCard({
         {/* <div className="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
         <p>State: {job.state}</p>
       </div> */}
-        <div className="flex items-center gap-x-2 text-xs leading-5 text-gray-500">
+        {/* <div className="flex items-center gap-x-2 text-xs leading-5 text-gray-500">
           <p>
             Audino AI annotation is
             <span
@@ -189,7 +189,7 @@ export default function JobCard({
               {aiStatusMapping[job.ai_audio_annotation_status]}
             </span>
           </p>
-        </div>
+        </div> */}
         <div className="flex items-center gap-x-2 text-xs leading-5 text-gray-500">
           <p>
             Created on {dayjs(job.created_date).format("Do MMMM YYYY")} & Last
@@ -340,7 +340,7 @@ export default function JobCard({
           leaveTo="transform opacity-0 scale-95"
         >
           <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md dark:bg-audino-light-navy bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
-            <Menu.Item>
+            {/* <Menu.Item>
               {({ active }) => (
                 <button
                   onClick={(e) => {
@@ -356,7 +356,7 @@ export default function JobCard({
                   Automatic annotation
                 </button>
               )}
-            </Menu.Item>
+            </Menu.Item> */}
             <Menu.Item>
               {({ active }) => (
                 <button

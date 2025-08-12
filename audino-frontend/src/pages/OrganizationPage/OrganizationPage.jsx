@@ -206,7 +206,7 @@ export default function OrganizationsPage() {
                           </span>
                           ({organization.name})
                           {currentOrg === organization.slug && (
-                            <span className="inline-flex flex-shrink-0 items-center rounded-full h-5 bg-green-50 px-1.5 py-0.5 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 ml-4">
+                            <span className="inline-flex flex-shrink-0 items-center rounded-full h-5 bg-blue-50 px-1.5 py-0.5 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-600/20 ml-4">
                               Active
                             </span>
                           )}

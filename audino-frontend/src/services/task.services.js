@@ -52,7 +52,7 @@ export const createTaskApi = async ({ taskSpec, taskDataSpec, onUpdate }) => {
     });
   }
   // console.log(taskSpec, taskDataSpec, onUpdate);
-  const chunkSize = 100 * 1024 * 1024; // threshold for chunksize
+  const chunkSize = 2000 * 1024 * 1024; // threshold for chunksize
   const clientFiles = taskDataSpec.client_files;
   const chunkFiles = [];
   const bulkFiles = [];
@@ -220,7 +220,7 @@ export const createTaskWithDataApi = async ({
   }
   console.log(taskSpec, taskDataSpec, onUpdate);
 
-  const chunkSize = 100 * 1024 * 1024; // threshold for chunksize 100mb
+  const chunkSize = 2000 * 1024 * 1024; // threshold for chunksize 100mb
   const clientFiles = taskDataSpec.client_files;
   const chunkFiles = [];
   const bulkFiles = [];

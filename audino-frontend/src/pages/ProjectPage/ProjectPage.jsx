@@ -180,7 +180,7 @@ export default function ProjectPage() {
                         <h3 className="truncate text-md font-medium text-gray-900 dark:text-white">
                           {project.name}
                         </h3>
-                        <span className="inline-flex flex-shrink-0 items-center rounded-full bg-green-50 dark:bg-audino-green-translucent px-1.5 py-0.5 text-xs font-medium text-green-700 dark:text-audino-primary  ring-1 ring-inset ring-green-600/20 dark:ring-audino-primary">
+                        <span className="inline-flex flex-shrink-0 items-center rounded-full bg-blue-50 dark:bg-audino-green-translucent px-1.5 py-0.5 text-xs font-medium text-blue-700 dark:text-audino-primary  ring-1 ring-inset ring-blue-600/20 dark:ring-audino-primary">
                           {project.status}
                         </span>
                       </div>

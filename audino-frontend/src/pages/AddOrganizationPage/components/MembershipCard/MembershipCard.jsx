@@ -166,7 +166,7 @@ const MembershipCard = ({ membership, onMembershipUpdate }) => {
           <div className="col-span-1 w-36 sm:col-span-2 md:col-span-2 align-left">
             <select
               id={membership.key}
-              className={`border-none focus:ring-0 bg-gray-50 dark:bg-audino-light-navy block w-full text-green-600 rounded-md text-sm ${isOwner ? "cursor-not-allowed bg-white" : ""
+                              className={`border-none focus:ring-0 bg-gray-50 dark:bg-audino-light-navy block w-full text-blue-600 rounded-md text-sm ${isOwner ? "cursor-not-allowed bg-white" : ""
                 }`}
               value={selectedRole}
               onChange={handleRoleChange}

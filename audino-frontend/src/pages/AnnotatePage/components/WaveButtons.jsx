@@ -426,7 +426,7 @@ export default function WaveButtons({
             </Transition>
           </Menu>
           {/* </Tooltip> */}
-          <Tooltip message="Audino Shortcuts">
+          <Tooltip message="Shortcuts">
             <button
               type="button"
               className="relative  items-center dark:bg-audino-navy bg-white hidden lg:inline-flex p-2 text-gray-400 dark:text-white hover:bg-gray-50 dark:hover:bg-audino-navy rounded-full focus:z-10 outline-none"

@@ -76,6 +76,62 @@ export const fetchAnnotationDataApi = async (data) => {
   }
 };
 
+export const fetchVideoDataApi = async (data) => {
+  try {
+    const res = await axios.get(BASE_URL + "/jobs/" + data.id + "/data", {
+      responseType: "blob",
+      params: {
+        org: data?.org,
+        ...globalParams(),
+        type: "video",
+        quality: "original",
+      },
+      headers: { ...authHeader() },
+    });
+    return res.data;
+  } catch (e) {
+    handleDjangoErrors(e);
+    throw Error(e.response?.data?.msg ?? "Something went wrong");
+  }
+};
+
+export const fetchVideoPreviewApi = async (data) => {
+  try {
+    const res = await axios.get(BASE_URL + "/jobs/" + data.id + "/video-preview", {
+      responseType: "blob",
+      params: {
+        org: data?.org,
+        ...globalParams(),
+        frame: data.frame || 0,
+      },
+      headers: { ...authHeader() },
+    });
+    return res.data;
+  } catch (e) {
+    handleDjangoErrors(e);
+    throw Error(e.response?.data?.msg ?? "Something went wrong");
+  }
+};
+
+export const fetchFullVideoApi = async (data) => {
+  try {
+    const res = await axios.get(BASE_URL + "/jobs/" + data.id + "/video-preview", {
+      responseType: "blob",
+      params: {
+        org: data?.org,
+        ...globalParams(),
+        full_video: true,
+      },
+      headers: { ...authHeader() },
+    });
+    // Return both data and response object to access headers
+    return { data: res.data, response: res };
+  } catch (e) {
+    handleDjangoErrors(e);
+    throw Error(e.response?.data?.msg ?? "Something went wrong");
+  }
+};
+
 export const fetchAllAnnotationApi = async (data) => {
   try {
     const res = await axios.get(
